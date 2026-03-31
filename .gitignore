@@ -1,0 +1,25 @@
+# Maven
+target/
+
+# Spring Boot
+*.jar
+*.war
+.env
+
+# React
+node_modules/
+build/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# IDE
+.classpath
+.project
+.settings/
+*.iml
+.idea/
+.vscode/
