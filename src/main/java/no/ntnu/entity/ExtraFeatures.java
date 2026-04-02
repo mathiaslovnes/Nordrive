@@ -1,4 +1,4 @@
-package no.ntnu.entity.models;
+package no.ntnu.entity;
 
 import java.util.Set;
 
