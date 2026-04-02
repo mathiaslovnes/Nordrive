@@ -8,7 +8,8 @@
     "frontend": "cross-env PORT=3001 react-scripts start",
     "backend": "mvn spring-boot:run",
     "build": "react-scripts build",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "wipedatabase": "cross-env SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop mvn spring-boot:run"
   },
   "repository": {
     "type": "git",
@@ -33,5 +34,17 @@
   "devDependencies": {
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
