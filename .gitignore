@@ -23,3 +23,7 @@ build/
 *.iml
 .idea/
 .vscode/
+
+# Project meta-files
+*.pdf
+*.docx
