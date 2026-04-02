@@ -1,5 +1,6 @@
 package no.ntnu.entity;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -60,6 +61,27 @@ public class CarModels {
   @Schema(description = "The energy source of the car")
   private EnergySource energySource;
 
+  @Schema(description = "The engine specification of the car (e.g. 1.5L, 2.0D xDrive)")
+  private String engine;
+
+  @Column(precision = 5, scale = 1)
+  @Schema(description = "Battery capacity in kWh, only for electric and hybrid cars")
+  private BigDecimal batteryCapacityKwh;
+
+  @Schema(description = "Range in kilometers, only for electric and hybrid cars")
+  private Integer rangeKm;
+
+  @Enumerated(EnumType.STRING)
+  @Schema(description = "The range measurement standard, only when rangeKm is set")
+  private RangeStandard rangeStandard;
+
+  @Schema(description = "Top speed in km/h")
+  private Integer topSpeedKmh;
+
+  @Column(precision = 4, scale = 1)
+  @Schema(description = "Acceleration from 0-100 km/h in seconds")
+  private BigDecimal acceleration;
+
   @ManyToMany
   @JoinTable(name = "car_model_extra_features", joinColumns = @JoinColumn(name = "car_model_id"), inverseJoinColumns = @JoinColumn(name = "extra_feature_id"))
   @Schema(description = "The extra features of the car model")
@@ -74,6 +96,10 @@ public class CarModels {
 
   public enum EnergySource {
     GAS, DIESEL, HYBRID, ELECTRIC
+  }
+
+  public enum RangeStandard {
+    WLTP, NEDC
   }
 
   // Getters and setters
@@ -148,5 +174,53 @@ public class CarModels {
 
   public void setExtraFeatures(Set<ExtraFeatures> extraFeatures) {
     this.extraFeatures = extraFeatures;
+  }
+
+  public String getEngine() {
+    return engine;
+  }
+
+  public void setEngine(String engine) {
+    this.engine = engine;
+  }
+
+  public BigDecimal getBatteryCapacityKwh() {
+    return batteryCapacityKwh;
+  }
+
+  public void setBatteryCapacityKwh(BigDecimal batteryCapacityKwh) {
+    this.batteryCapacityKwh = batteryCapacityKwh;
+  }
+
+  public Integer getRangeKm() {
+    return rangeKm;
+  }
+
+  public void setRangeKm(Integer rangeKm) {
+    this.rangeKm = rangeKm;
+  }
+
+  public RangeStandard getRangeStandard() {
+    return rangeStandard;
+  }
+
+  public void setRangeStandard(RangeStandard rangeStandard) {
+    this.rangeStandard = rangeStandard;
+  }
+
+  public Integer getTopSpeedKmh() {
+    return topSpeedKmh;
+  }
+
+  public void setTopSpeedKmh(Integer topSpeedKmh) {
+    this.topSpeedKmh = topSpeedKmh;
+  }
+
+  public BigDecimal getAcceleration() {
+    return acceleration;
+  }
+
+  public void setAcceleration(BigDecimal acceleration) {
+    this.acceleration = acceleration;
   }
 }
