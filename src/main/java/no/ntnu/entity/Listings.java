@@ -59,7 +59,7 @@ public class Listings {
   @Schema(description = "The color of the car")
   private String color;
 
-  @Column(nullable = false)
+  @Column(name = "car_condition", nullable = false)
   @Enumerated(EnumType.STRING)
   @Schema(description = "Whether the car is new or secondhand")
   private Condition condition;
@@ -160,11 +160,33 @@ public class Listings {
     this.condition = condition;
   }
 
+  @Schema(description = "URL or path to the car image")
+  private String imageUrl;
+
+  @Schema(description = "URL to the original advertisement the image was sourced from")
+  private String sourceUrl;
+
   public int getMileage() {
     return mileage;
   }
 
   public void setMileage(int mileage) {
     this.mileage = mileage;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public String getSourceUrl() {
+    return sourceUrl;
+  }
+
+  public void setSourceUrl(String sourceUrl) {
+    this.sourceUrl = sourceUrl;
   }
 }

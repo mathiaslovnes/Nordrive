@@ -93,7 +93,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>no.ntnu.CarSalesApplication</mainClass>
+					<mainClass>no.ntnu.NordriveApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
