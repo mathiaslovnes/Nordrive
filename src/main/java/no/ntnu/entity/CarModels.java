@@ -53,8 +53,9 @@ public class CarModels {
   private int passengers;
 
   @Column(nullable = false)
-  @Schema(description = "Whether the car has automatic transmission")
-  private boolean automatic;
+  @Enumerated(EnumType.STRING)
+  @Schema(description = "The transmission type of the car")
+  private Transmission transmission;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
@@ -92,6 +93,10 @@ public class CarModels {
 
   public enum CarType {
     SEDAN, HATCHBACK, SUV, TRUCK, COUPE, CONVERTIBLE, LUXURY, MINIVAN, SPORTS, CROSSOVER, STATION_WAGON
+  }
+
+  public enum Transmission {
+    MANUAL, AUTOMATIC
   }
 
   public enum EnergySource {
@@ -152,12 +157,12 @@ public class CarModels {
     this.passengers = passengers;
   }
 
-  public boolean isAutomatic() {
-    return automatic;
+  public Transmission getTransmission() {
+    return transmission;
   }
 
-  public void setAutomatic(boolean automatic) {
-    this.automatic = automatic;
+  public void setTransmission(Transmission transmission) {
+    this.transmission = transmission;
   }
 
   public EnergySource getEnergySource() {

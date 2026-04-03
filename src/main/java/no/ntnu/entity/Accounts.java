@@ -43,7 +43,7 @@ public class Accounts {
   @Schema(description = "The email of the account")
   private String email;
 
-  @Column(nullable = false, unique = true)
+  @Column(unique = true)
   @Schema(description = "The phone number of the account")
   private String phoneNumber;
 
