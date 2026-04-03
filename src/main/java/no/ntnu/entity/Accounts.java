@@ -25,10 +25,9 @@ import org.hibernate.annotations.SQLRestriction;
  * <p>
  * This entity uses soft deletion via the {@code isDeleted} field.
  * The {@code @SQLRestriction} annotation automatically filters out deleted
- * accounts
- * from all standard JPA queries. To retrieve deleted accounts (e.g. for admin
- * audit),
- * use a native query to bypass this filter.
+ * accounts from all standard JPA queries. To retrieve deleted accounts (e.g.
+ * for admin
+ * audit), use a native query to bypass this filter.
  * </p>
  */
 @Entity
