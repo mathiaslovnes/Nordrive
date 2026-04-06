@@ -42,7 +42,7 @@ public class Orders {
 
   @Column(nullable = false)
   @Schema(description = "The date the order was placed")
-  private LocalDateTime orderTimestamp;
+  private LocalDateTime orderedAt;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
@@ -51,7 +51,7 @@ public class Orders {
 
   @PrePersist
   protected void onCreate() {
-    this.orderTimestamp = LocalDateTime.now();
+    this.orderedAt = LocalDateTime.now();
   }
 
   // Enums
@@ -94,8 +94,8 @@ public class Orders {
     this.purchasePrice = purchasePrice;
   }
 
-  public LocalDateTime getOrderTimestamp() {
-    return orderTimestamp;
+  public LocalDateTime getOrderedAt() {
+    return orderedAt;
   }
 
   public Status getStatus() {
