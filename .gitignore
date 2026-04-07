@@ -28,6 +28,9 @@ build/
 *.pdf
 *.docx
 
+# Claude
+*.claude
+
 
 src/test/*lesund Rental/
 src/test/*lesund Rental*.json
