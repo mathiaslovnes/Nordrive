@@ -1,5 +1,7 @@
 package no.ntnu.exception;
 
+import java.time.LocalDateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 /**
  * Global exception handler for the application.
  * Catches exceptions thrown by services and controllers and returns
- * appropriate HTTP responses.
+ * structured {@link ErrorResponse} JSON responses.
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -29,13 +31,14 @@ public class GlobalExceptionHandler {
    * @return ResponseEntity with status 400 and error details
    */
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
+  public ResponseEntity<ErrorResponse> handleValidationException(
+      MethodArgumentNotValidException ex) {
     logger.error("Validation error: ", ex);
     String errorMessage = ex.getBindingResult().getFieldErrors().stream()
         .map(error -> error.getField() + ": " + error.getDefaultMessage())
         .reduce((msg1, msg2) -> msg1 + ", " + msg2)
         .orElse("Validation error occurred");
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    return buildResponse(HttpStatus.BAD_REQUEST, errorMessage);
   }
 
   /**
@@ -46,9 +49,9 @@ public class GlobalExceptionHandler {
    * @return ResponseEntity with status 404 and error message
    */
   @ExceptionHandler(NotFoundException.class)
-  public ResponseEntity<String> handleNotFoundException(NotFoundException ex) {
+  public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
     logger.error("Resource not found: ", ex);
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
   }
 
   /**
@@ -59,10 +62,10 @@ public class GlobalExceptionHandler {
    * @return ResponseEntity with status 409 and error message
    */
   @ExceptionHandler(DataIntegrityViolationException.class)
-  public ResponseEntity<String> handleDataIntegrityViolationException(
+  public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(
       DataIntegrityViolationException ex) {
     logger.error("Data integrity violation: ", ex);
-    return ResponseEntity.status(HttpStatus.CONFLICT).body("Data integrity violation occurred");
+    return buildResponse(HttpStatus.CONFLICT, "Data integrity violation occurred");
   }
 
   /**
@@ -73,10 +76,9 @@ public class GlobalExceptionHandler {
    * @return ResponseEntity with status 500 and error message
    */
   @ExceptionHandler(DataAccessException.class)
-  public ResponseEntity<String> handleDataAccessException(DataAccessException ex) {
+  public ResponseEntity<ErrorResponse> handleDataAccessException(DataAccessException ex) {
     logger.error("Data access error: ", ex);
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body("Data access error occurred");
+    return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Data access error occurred");
   }
 
   /**
@@ -87,9 +89,25 @@ public class GlobalExceptionHandler {
    * @return ResponseEntity with status 500 and generic error message
    */
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<String> handleGenericException(Exception ex) {
+  public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
     logger.error("Unexpected error: ", ex);
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body("An unexpected error occurred");
+    return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
+  }
+
+  /**
+   * Builds a structured {@link ErrorResponse} with the given status and message.
+   *
+   * @param status  the HTTP status
+   * @param message the error message
+   * @return ResponseEntity containing the error response
+   */
+  private ResponseEntity<ErrorResponse> buildResponse(HttpStatus status, String message) {
+    ErrorResponse error = new ErrorResponse(
+        status.value(),
+        status.getReasonPhrase(),
+        message,
+        LocalDateTime.now()
+    );
+    return ResponseEntity.status(status).body(error);
   }
 }
