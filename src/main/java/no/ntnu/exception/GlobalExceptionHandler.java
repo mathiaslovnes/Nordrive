@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
    */
   @ExceptionHandler(NotFoundException.class)
   public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
-    logger.error("Resource not found: ", ex);
+    logger.error("{}", ex.getMessage());
     return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
   }
 
