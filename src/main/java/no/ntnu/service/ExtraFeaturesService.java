@@ -61,8 +61,7 @@ public class ExtraFeaturesService {
   public ExtraFeaturesResponse create(ExtraFeaturesRequest request) {
     logger.info("Creating extra feature with name: {}", request.name());
     ExtraFeatures entity = new ExtraFeatures();
-    entity.setName(request.name());
-    entity.setDescription(request.description());
+    applyRequest(entity, request);
     ExtraFeatures saved = extraFeaturesRepository.save(entity);
     logger.info("Created extra feature with ID: {}", saved.getId());
     return toResponse(saved);
@@ -81,8 +80,7 @@ public class ExtraFeaturesService {
     ExtraFeatures existing = extraFeaturesRepository.findById(id)
         .orElseThrow(() -> new NotFoundException(
             "Extra feature with ID " + id + " not found"));
-    existing.setName(request.name());
-    existing.setDescription(request.description());
+    applyRequest(existing, request);
     ExtraFeatures saved = extraFeaturesRepository.save(existing);
     logger.info("Updated extra feature with ID: {}", saved.getId());
     return toResponse(saved);
@@ -102,6 +100,17 @@ public class ExtraFeaturesService {
     }
     extraFeaturesRepository.deleteById(id);
     logger.info("Deleted extra feature with ID: {}", id);
+  }
+
+  /**
+   * Applies the fields from a request DTO to an extra features entity.
+   *
+   * @param entity  the entity to update
+   * @param request the request data
+   */
+  private void applyRequest(ExtraFeatures entity, ExtraFeaturesRequest request) {
+    entity.setName(request.name());
+    entity.setDescription(request.description());
   }
 
   /**
