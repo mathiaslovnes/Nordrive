@@ -42,6 +42,19 @@ public class GlobalExceptionHandler {
   }
 
   /**
+   * Handles bad request exceptions from business logic validation.
+   * Returns a 400 Bad Request response with the exception message.
+   *
+   * @param ex the bad request exception
+   * @return ResponseEntity with status 400 and error message
+   */
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex) {
+    logger.error("{}", ex.getMessage());
+    return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+  }
+
+  /**
    * Handles all not-found exceptions.
    * Returns a 404 Not Found response with the exception message.
    *
