@@ -10,8 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import no.ntnu.dto.users.UsersRequest;
+import no.ntnu.dto.users.UsersCreateRequest;
 import no.ntnu.dto.users.UsersResponse;
+import no.ntnu.dto.users.UsersUpdateRequest;
 import no.ntnu.entity.Listings;
 import no.ntnu.entity.Users;
 import no.ntnu.exception.NotFoundException;
@@ -70,7 +71,7 @@ public class UsersService {
    * @param request the user data
    * @return the created user
    */
-  public UsersResponse create(UsersRequest request) {
+  public UsersResponse create(UsersCreateRequest request) {
     logger.info("Creating user with email: {}", request.email());
     Users entity = new Users();
     applyRequest(entity, request);
@@ -87,7 +88,7 @@ public class UsersService {
    * @return the updated user
    * @throws NotFoundException if no user with the given ID exists
    */
-  public UsersResponse update(Long id, UsersRequest request) {
+  public UsersResponse update(Long id, UsersUpdateRequest request) {
     logger.info("Updating user with ID: {}", id);
     Users existing = usersRepository.findById(id)
         .orElseThrow(() -> new NotFoundException(
@@ -179,15 +180,28 @@ public class UsersService {
   }
 
   /**
-   * Applies the fields from a request DTO to a user entity.
+   * Applies the fields from a create request DTO to a user entity.
    *
    * @param entity  the entity to update
    * @param request the request data
    */
-  private void applyRequest(Users entity, UsersRequest request) {
+  private void applyRequest(Users entity, UsersCreateRequest request) {
     entity.setEmail(request.email());
     entity.setPhoneNumber(request.phoneNumber());
     entity.setPassword(passwordEncoder.encode(request.password()));
+    entity.setFirstName(request.firstName());
+    entity.setLastName(request.lastName());
+  }
+
+  /**
+   * Applies the fields from an update request DTO to a user entity.
+   *
+   * @param entity  the entity to update
+   * @param request the request data
+   */
+  private void applyRequest(Users entity, UsersUpdateRequest request) {
+    entity.setEmail(request.email());
+    entity.setPhoneNumber(request.phoneNumber());
     entity.setFirstName(request.firstName());
     entity.setLastName(request.lastName());
   }

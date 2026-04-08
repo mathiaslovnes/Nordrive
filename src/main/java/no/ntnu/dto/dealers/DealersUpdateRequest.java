@@ -6,10 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 /**
- * DTO for creating or updating a {@link no.ntnu.entity.Dealers dealer}.
+ * DTO for updating a {@link no.ntnu.entity.Dealers dealer}.
  */
-@Schema(description = "Request body for creating or updating a dealer")
-public record DealersRequest(
+@Schema(description = "Request body for updating a dealer")
+public record DealersUpdateRequest(
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email must be valid")
@@ -20,11 +20,6 @@ public record DealersRequest(
     @Size(max = 32, message = "Phone number must be at most 32 characters")
     @Schema(description = "The phone number of the dealer", example = "+4798765432")
     String phoneNumber,
-
-    @NotBlank(message = "Password is required")
-    @Size(min = 1, max = 255, message = "Password must be between 1 and 255 characters")
-    @Schema(description = "The password of the dealer")
-    String password,
 
     @NotBlank(message = "Company name is required")
     @Size(max = 128, message = "Company name must be at most 128 characters")

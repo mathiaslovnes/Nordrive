@@ -22,8 +22,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
-import no.ntnu.dto.users.UsersRequest;
+import no.ntnu.dto.users.UsersCreateRequest;
 import no.ntnu.dto.users.UsersResponse;
+import no.ntnu.dto.users.UsersUpdateRequest;
 import no.ntnu.service.UsersService;
 
 /**
@@ -87,7 +88,7 @@ public class UsersController {
       @ApiResponse(responseCode = "400", description = "Invalid input data")
   })
   public ResponseEntity<UsersResponse> create(
-      @Valid @RequestBody UsersRequest request) {
+      @Valid @RequestBody UsersCreateRequest request) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(usersService.create(request));
   }
@@ -110,7 +111,7 @@ public class UsersController {
       @Parameter(description = "ID of the user", required = true)
       @Positive(message = "ID must be positive")
       @PathVariable Long id,
-      @Valid @RequestBody UsersRequest request) {
+      @Valid @RequestBody UsersUpdateRequest request) {
     return ResponseEntity.ok(usersService.update(id, request));
   }
 

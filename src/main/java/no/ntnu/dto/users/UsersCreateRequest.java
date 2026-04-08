@@ -6,10 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 /**
- * DTO for creating or updating a {@link no.ntnu.entity.Users user}.
+ * DTO for creating a {@link no.ntnu.entity.Users user}.
  */
-@Schema(description = "Request body for creating or updating a user")
-public record UsersRequest(
+@Schema(description = "Request body for creating a user")
+public record UsersCreateRequest(
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email must be valid")

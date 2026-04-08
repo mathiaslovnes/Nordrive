@@ -7,8 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import no.ntnu.dto.dealers.DealersRequest;
+import no.ntnu.dto.dealers.DealersCreateRequest;
 import no.ntnu.dto.dealers.DealersResponse;
+import no.ntnu.dto.dealers.DealersUpdateRequest;
 import no.ntnu.entity.Dealers;
 import no.ntnu.exception.NotFoundException;
 import no.ntnu.repository.DealersRepository;
@@ -62,7 +63,7 @@ public class DealersService {
    * @param request the dealer data
    * @return the created dealer
    */
-  public DealersResponse create(DealersRequest request) {
+  public DealersResponse create(DealersCreateRequest request) {
     logger.info("Creating dealer with email: {}", request.email());
     Dealers entity = new Dealers();
     applyRequest(entity, request);
@@ -79,7 +80,7 @@ public class DealersService {
    * @return the updated dealer
    * @throws NotFoundException if no dealer with the given ID exists
    */
-  public DealersResponse update(Long id, DealersRequest request) {
+  public DealersResponse update(Long id, DealersUpdateRequest request) {
     logger.info("Updating dealer with ID: {}", id);
     Dealers existing = dealersRepository.findById(id)
         .orElseThrow(() -> new NotFoundException(
@@ -112,10 +113,22 @@ public class DealersService {
    * @param entity  the entity to update
    * @param request the request data
    */
-  private void applyRequest(Dealers entity, DealersRequest request) {
+  private void applyRequest(Dealers entity, DealersCreateRequest request) {
     entity.setEmail(request.email());
     entity.setPhoneNumber(request.phoneNumber());
     entity.setPassword(passwordEncoder.encode(request.password()));
+    entity.setCompanyName(request.companyName());
+  }
+
+  /**
+   * Applies the fields from an update request DTO to a dealer entity.
+   *
+   * @param entity  the entity to update
+   * @param request the request data
+   */
+  private void applyRequest(Dealers entity, DealersUpdateRequest request) {
+    entity.setEmail(request.email());
+    entity.setPhoneNumber(request.phoneNumber());
     entity.setCompanyName(request.companyName());
   }
 

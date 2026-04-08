@@ -21,8 +21,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
-import no.ntnu.dto.dealers.DealersRequest;
+import no.ntnu.dto.dealers.DealersCreateRequest;
 import no.ntnu.dto.dealers.DealersResponse;
+import no.ntnu.dto.dealers.DealersUpdateRequest;
 import no.ntnu.service.DealersService;
 
 /**
@@ -86,7 +87,7 @@ public class DealersController {
       @ApiResponse(responseCode = "400", description = "Invalid input data")
   })
   public ResponseEntity<DealersResponse> create(
-      @Valid @RequestBody DealersRequest request) {
+      @Valid @RequestBody DealersCreateRequest request) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(dealersService.create(request));
   }
@@ -109,7 +110,7 @@ public class DealersController {
       @Parameter(description = "ID of the dealer", required = true)
       @Positive(message = "ID must be positive")
       @PathVariable Long id,
-      @Valid @RequestBody DealersRequest request) {
+      @Valid @RequestBody DealersUpdateRequest request) {
     return ResponseEntity.ok(dealersService.update(id, request));
   }
 
